@@ -1,0 +1,68 @@
+{
+  "executionRoleArn": "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/railsmmm",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "entryPoint": [
+        "rake"
+      ],
+      "command": [
+        "db:migrate"
+      ],
+      "portMappings": [
+        {
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "containerPort": 3000
+        }
+      ],
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "DATABASE_URL",
+          "value": "postgres://username:password@host"
+        },
+        {
+          "name": "PORT",
+          "value": "80"
+        },
+        {
+          "name": "RACK_ENV",
+          "value": "staging"
+        },
+        {
+          "name": "RAILS_ENV",
+          "value": "staging"
+        },
+        {
+          "name": "RAILS_LOG_TO_STDOUT",
+          "value": "true"
+        },
+        {
+          "name": "RAILS_SERVE_STATIC_FILES",
+          "value": "true"
+        },
+        {
+          "name": "SECRET_KEY_BASE",
+          "value": "asecret"
+        }
+      ],
+      "image": "<YOUR_AWS_ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/demo/rails",
+      "name": "rails6demo"
+    }
+  ],
+  "memory": "2048",
+  "family": "railsmmm",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "1024"
+}

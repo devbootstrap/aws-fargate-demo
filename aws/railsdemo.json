@@ -1,0 +1,58 @@
+{
+  "executionRoleArn": "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/railsdemo",
+          "awslogs-region": "YOUR_AWS_REGION",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "containerPort": 3000
+        }
+      ],
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "DATABASE_URL",
+          "value": "postgres://username:password@host"
+        },
+        {
+          "name": "SECRET_KEY_BASE",
+          "value": "asecret"
+        },
+        {
+          "name": "RACK_ENV",
+          "value": "staging"
+        },
+        {
+          "name": "RAILS_ENV",
+          "value": "staging"
+        },
+        {
+          "name": "RAILS_LOG_TO_STDOUT",
+          "value": "true"
+        },
+        {
+          "name": "RAILS_SERVE_STATIC_FILES",
+          "value": "true"
+        }
+      ],
+      "image": "<YOUR_AWS_ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/demo/rails",
+      "name": "rails6demo"
+    }
+  ],
+  "memory": "2048",
+  "family": "railsdemo",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "1024"
+}
